@@ -1,0 +1,19 @@
+{
+  "name": "Reddit",
+  "description": "Reddit",
+  "namespace": "reddit",
+  "icon": "assets/reddit-logo.svg",
+  "categories": ["Advertising"],
+  "provides": ["events"],
+  "allowCustomFields": true,
+  "permissions": {
+    "client_network_requests": {
+      "description": "Reports attribution data back to Reddit servers",
+      "required": true
+    },
+    "access_client_kv": {
+      "description": "Stores UUIDs as cookies",
+      "required": true
+    }
+  }
+}
