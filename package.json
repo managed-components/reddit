@@ -1,18 +1,18 @@
 {
   "name": "@managed-components/reddit",
-  "version": "1.0.10",
-  "description": "",
+  "version": "1.0.0",
+  "description": "Managed Component for Reddit",
   "main": "dist/index.js",
   "scripts": {
     "clean": "rimraf dist",
     "lint": "eslint --ext .ts,.js, src",
     "lint:fix": "eslint --ext .ts,.js, src --fix",
     "bundle": "node esbuild.js",
-    "build": "run-s test lint typecheck bundle",
-    "release": "npm run build && npm version patch && npm publish",
+    "build": "run-s lint typecheck bundle",
     "typecheck": "tsc --project tsconfig.build.json --noEmit",
-    "test": "vitest run --globals --passWithNoTests",
-    "test:dev": "vitest --globals --passWithNoTests"
+    "test": "vitest run --globals",
+    "test:dev": "vitest --globals",
+    "release": "npm run build && npm version patch && npm publish"
   },
   "repository": {
     "type": "git",

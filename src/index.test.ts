@@ -4,8 +4,8 @@ import { eventHandler, redditHashKey } from '.'
 const randomUUID = crypto.randomUUID()
 
 describe('Reddit MC event handler works correctly', async () => {
-  let fetchedRequests: any = []
-  let setCookies: any = []
+  const fetchedRequests: any = []
+  const setCookies: any = []
 
   const fakeEvent = new Event('pageview', {}) as MCEvent
   fakeEvent.name = 'Reddit Mock MC'
