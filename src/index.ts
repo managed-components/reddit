@@ -1,50 +1,35 @@
 import { ComponentSettings, Manager, MCEvent } from '@managed-components/types'
 
-interface RedditPayload {
+// For future reference, see payload being sent here: https://reddit-test-2.pages.dev/
+type RedditPayload = {
   id: string
-  event: object
-  ts: number
+  event: string
+  ts: string
   click_id?: string
   uuid?: string
-}
-
-export const redditHashKey = 'm4sxh0fc5dnb' // Hardcoded Reddit key
-
-const redditHash = async (data: RedditPayload) => {
-  let message = data.id + data.event + data.ts
-
-  if (data.click_id) message += data.click_id
-  if (data.uuid) message += data.uuid
-
-  const getUtf8Bytes = (str: string) =>
-    new Uint8Array(
-      [...unescape(encodeURIComponent(str))].map(c => c.charCodeAt(0))
-    )
-
-  const keyBytes = getUtf8Bytes(redditHashKey)
-  const messageBytes = getUtf8Bytes(message)
-
-  const cryptoKey = await crypto.subtle.importKey(
-    'raw',
-    keyBytes,
-    { name: 'HMAC', hash: 'SHA-256' },
-    true,
-    ['sign']
-  )
-  const sig = await crypto.subtle.sign('HMAC', cryptoKey, messageBytes)
-
-  // to lowercase hexits
-  ;[...new Uint8Array(sig)].map(b => b.toString(16).padStart(2, '0')).join('')
-
-  // to base64
-  return btoa(String.fromCharCode(...new Uint8Array(sig)))
+  integration?: string
+  opt_out?: string
+  v?: string
+  sh?: string
+  sw?: string
+  'm.itemCount'?: string
+  'm.value'?: string
+  'm.valueDecimal'?: string
+  'm.currency'?: string
+  'm.transactionId'?: string
+  'm.customEventName'?: string
+  'm.products'?: string
+  aaid?: string
+  em?: string
+  external_id?: string
+  idfa?: string
 }
 
 export const eventHandler = async (eventType: string, event: MCEvent) => {
   const { client, payload } = event
 
   payload.event = eventType
-  payload.ts = new Date().valueOf()
+  payload.ts = new Date().valueOf().toString()
   const uuidCookie = client.get('reddit_uuid')
   if (uuidCookie && uuidCookie.split('.').length > 1) {
     payload.uuid = uuidCookie.split('.')[1]
@@ -57,9 +42,16 @@ export const eventHandler = async (eventType: string, event: MCEvent) => {
     payload.click_id = rdt_cid
   }
 
-  payload.s = await redditHash(payload)
+  const finalPayload: RedditPayload = {
+    ...payload,
+    integration: 'reddit',
+    opt_out: 0,
+    v: 'rdt_65e23bc4',
+    sh: client.screenHeight?.toString(),
+    sw: client.screenWidth?.toString(),
+  }
 
-  const params = new URLSearchParams(payload)
+  const params = new URLSearchParams(finalPayload)
   params.delete('timestamp')
 
   client.fetch(`https://alb.reddit.com/rp.gif?${params.toString()}`, {
