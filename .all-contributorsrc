@@ -9,6 +9,16 @@
   "imageSize": 75,
   "commit": true,
   "commitConvention": "none",
-  "contributors": [],
+  "contributors": [
+    {
+      "login": "omarmosid",
+      "name": "Omar",
+      "avatar_url": "https://avatars.githubusercontent.com/u/47219640?v=4",
+      "profile": "https://omarmo.com/now",
+      "contributions": [
+        "code"
+      ]
+    }
+  ],
   "contributorsPerLine": 7
 }
