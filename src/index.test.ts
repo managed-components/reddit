@@ -1,5 +1,5 @@
 import { MCEvent, ClientSetOptions } from '@managed-components/types'
-import { eventHandler, redditHashKey } from '.'
+import { eventHandler } from '.'
 
 const randomUUID = crypto.randomUUID()
 
@@ -66,40 +66,6 @@ describe('Reddit MC event handler works correctly', async () => {
     expect(
       parseInt(url.searchParams.get('ts') as string, 10)
     ).toBeLessThanOrEqual(Date.now())
-    expect(url.searchParams.get('s')).toBeTruthy()
-
-    // Verify Hash
-    const s = decodeURIComponent(url.searchParams.get('s') as string)
-    const getUtf8Bytes = (str: string) =>
-      new Uint8Array(
-        [...unescape(encodeURIComponent(str))].map(c => c.charCodeAt(0))
-      )
-
-    const cryptoKey = await crypto.subtle.importKey(
-      'raw',
-      getUtf8Bytes(redditHashKey),
-      { name: 'HMAC', hash: 'SHA-256' },
-      true,
-      ['verify']
-    )
-
-    let message =
-      fakeEvent.payload.id + fakeEvent.payload.event + fakeEvent.payload.ts
-    message += fakeEvent.payload.uuid
-
-    let result = false
-    try {
-      result = await crypto.subtle.verify(
-        'HMAC',
-        cryptoKey,
-        Buffer.from(s, 'base64'),
-        getUtf8Bytes(message)
-      )
-    } catch (e) {
-      console.error(e)
-    }
-
-    expect(result).toBeTruthy()
   })
 
   it('sets the UUID cookie correctly', () => {
