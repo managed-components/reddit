@@ -9,6 +9,16 @@
   "imageSize": 75,
   "commit": true,
   "commitConvention": "none",
-  "contributors": [],
+  "contributors": [
+    {
+      "login": "tomkln",
+      "name": "Tom Klein",
+      "avatar_url": "https://avatars.githubusercontent.com/u/21014430?v=4",
+      "profile": "http://www.tomklein.me",
+      "contributions": [
+        "code"
+      ]
+    }
+  ],
   "contributorsPerLine": 7
 }
