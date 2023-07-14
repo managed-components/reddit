@@ -42,7 +42,7 @@ describe('Reddit MC event handler works correctly', async () => {
     detachEvent: () => {},
   }
 
-  await eventHandler('pageview', fakeEvent)
+  await eventHandler('pageview', fakeEvent, { id: '123' })
 
   it('creates the Reddit pixel request correctly', async () => {
     const pixelRequest = fetchedRequests.find((x: any) =>
