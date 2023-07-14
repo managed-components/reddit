@@ -25,10 +25,15 @@ type RedditPayload = {
   idfa?: string
 }
 
-export const eventHandler = async (eventType: string, event: MCEvent) => {
+export const eventHandler = async (
+  eventType: string,
+  event: MCEvent,
+  settings: ComponentSettings
+) => {
   const { client, payload } = event
 
   payload.event = eventType
+  payload.id = settings.id
   payload.ts = new Date().valueOf().toString()
   const uuidCookie = client.get('reddit_uuid')
   if (uuidCookie && uuidCookie.split('.').length > 1) {
@@ -66,29 +71,29 @@ export const eventHandler = async (eventType: string, event: MCEvent) => {
   })
 }
 
-export default async function (manager: Manager, _settings: ComponentSettings) {
+export default async function (manager: Manager, settings: ComponentSettings) {
   manager.addEventListener('pageview', event => {
-    eventHandler('PageVisit', event)
+    eventHandler('PageVisit', event, settings)
   })
   manager.addEventListener('ViewContent', event => {
-    eventHandler('ViewContent', event)
+    eventHandler('ViewContent', event, settings)
   })
   manager.addEventListener('AddToCart', event => {
-    eventHandler('AddToCart', event)
+    eventHandler('AddToCart', event, settings)
   })
   manager.addEventListener('AddToWishlist', event => {
-    eventHandler('AddToWishlist', event)
+    eventHandler('AddToWishlist', event, settings)
   })
   manager.addEventListener('Search', event => {
-    eventHandler('Search', event)
+    eventHandler('Search', event, settings)
   })
   manager.addEventListener('Purchase', event => {
-    eventHandler('Purchase', event)
+    eventHandler('Purchase', event, settings)
   })
   manager.addEventListener('Lead', event => {
-    eventHandler('Lead', event)
+    eventHandler('Lead', event, settings)
   })
   manager.addEventListener('SignUp', event => {
-    eventHandler('SignUp', event)
+    eventHandler('SignUp', event, settings)
   })
 }
