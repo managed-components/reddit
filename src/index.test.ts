@@ -1,4 +1,4 @@
-import { MCEvent, ClientSetOptions } from '@managed-components/types'
+import { MCEvent } from '@managed-components/types'
 import { eventHandler } from '.'
 
 const randomUUID = crypto.randomUUID()
@@ -29,7 +29,7 @@ describe('Reddit MC event handler works correctly', async () => {
       return undefined
     },
     execute: () => undefined,
-    return: () => {},
+    return: () => undefined,
     get: key => {
       if (key === 'reddit_uuid') {
         // Simulate a day old cookie
@@ -38,8 +38,8 @@ describe('Reddit MC event handler works correctly', async () => {
         return undefined
       }
     },
-    attachEvent: () => {},
-    detachEvent: () => {},
+    attachEvent: () => undefined,
+    detachEvent: () => undefined,
   }
 
   await eventHandler('pageview', fakeEvent, { id: '123' })
