@@ -20,6 +20,5 @@ jobs:
       # Actual Tests
       - run: npm i
       - run: npm run lint --if-present
-        continue-on-error: true
       - run: npm run typecheck --if-present
       - run: npm run bundle --if-present
