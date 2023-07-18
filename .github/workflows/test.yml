@@ -1,0 +1,21 @@
+name: 'Build Test'
+description: 'Tests the build process of the MC'
+
+jobs:
+  bundle-test:
+    runs-on: <docker_img>
+    strategy:
+      matrix:
+        node-version: [18.x]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Running Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      # Actual Tests
+      - run: npm i
+      - run: npm run lint --if-present
+        continue-on-error: true
+      - run: npm run typecheck --if-present
+      - run: npm run bundle --if-present
