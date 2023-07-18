@@ -1,5 +1,4 @@
 name: 'Build Test'
-description: 'Tests the build process of the MC'
 
 on:
   push:
