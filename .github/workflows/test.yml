@@ -6,8 +6,8 @@ on:
       - '**'
 
 jobs:
-  bundle-test:
-    runs-on: <docker_img>
+  build-test:
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         node-version: [18.x]
