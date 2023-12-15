@@ -1,7 +1,12 @@
 import { MCEvent } from '@managed-components/types'
+import crypto from 'crypto'
 import { eventHandler } from '.'
 
 const randomUUID = crypto.randomUUID()
+
+if (!global.crypto) {
+  vi.stubGlobal('crypto', crypto)
+}
 
 describe('Reddit MC event handler works correctly', async () => {
   const fetchedRequests: any = []
