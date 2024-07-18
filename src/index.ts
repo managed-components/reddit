@@ -96,4 +96,7 @@ export default async function (manager: Manager, settings: ComponentSettings) {
   manager.addEventListener('SignUp', event => {
     eventHandler('SignUp', event, settings)
   })
+  manager.addEventListener('Custom', event => {
+    eventHandler('Custom', event, settings)
+  })
 }
